@@ -1,0 +1,53 @@
+:root {
+    /*size: A5 landscape;*/
+    /*  148mm x 210mm */
+    /* size: 595px 420px // A5 landscape */
+    --slide_height: 420px;
+    --slide_width: calc( var(--slide_height) * 16 / 9 );
+}
+body {
+    margin: 0;
+    padding: 0;
+    print-color-adjust:exact;
+    background-color: grey;
+    position: relative;
+}
+main {
+    overflow-x: hidden;
+    position: absolute;
+    top: 0;
+    /*overflow: hidden;*/
+    width: var(--slide_width);
+    background-color: white;
+    & > section {
+        width: var(--slide_width);
+        height: var(--slide_height);
+        overflow-y: scroll;
+        /*background-color: blue;*/
+        border: 1px solid black; /* red */
+        box-sizing: border-box;
+
+        background-image: url('./img/uca/background.png');
+        background-size: cover;
+    }
+}
+@media screen {
+    body {
+        overflow: hidden;
+    }
+    main {
+        right: 0;
+        transform-origin: top right;
+        scale: var(--scale);
+        height: var(--slide_height);
+    }
+}
+@media print {
+    main > section {
+        border: 1px solid white;
+    }
+}
+@page {
+
+    size: 747px 420px;
+}

@@ -1,11 +1,11 @@
 {
     "exclude": ["node_modules", "webpack.config.js", "build", "dist"],
     "compilerOptions": {
-        "rootDir": "./src/",
+        "rootDir": "./",
         "outDir": "./dist/",
         "baseUrl": "./",
         "paths": {
-        "*": ["src/*"]
+        "*": ["src/*", "libs/*"]
         },
         "sourceMap": true,
         "alwaysStrict": true,

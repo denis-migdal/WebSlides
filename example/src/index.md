@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Example</title>
-    <link rel="stylesheet" href="../../node_modules/highlight.js/styles/1c-light.min.css">
     <link rel="stylesheet" href="./index.css">
     <script src="./index.js" type="module" defer></script>
 </head>
