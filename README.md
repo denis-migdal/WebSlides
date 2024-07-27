@@ -10,5 +10,5 @@
 
 ## TODO
 
-- uca-frame issues to select all frames + to apply global CSS + use current scroll instead of current_frame...
+- use current scroll instead of current_frame...
 - LISS tests causes TS errors (requires a TS config ???)

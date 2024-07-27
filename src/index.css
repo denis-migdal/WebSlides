@@ -19,7 +19,7 @@ main {
     /*overflow: hidden;*/
     width: var(--slide_width);
     background-color: white;
-    & > section, & > uca-frame-plain {
+    & > section, & > .ws-frame {
         width: var(--slide_width);
         height: var(--slide_height);
         overflow-y: scroll;
