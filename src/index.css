@@ -5,6 +5,22 @@
     --slide_height: 420px;
     --slide_width: calc( var(--slide_height) * 16 / 9 );
 }
+
+body {
+    counter-reset: page_id;
+}
+main > section, main > .ws-frame {
+    position: relative;
+}
+main > section::before, main > .ws-frame::before {
+    position: absolute;
+    bottom: 0;
+    right: 5px;
+    counter-increment: page_id;
+    content: counter(page_id);
+}
+
+
 body {
     margin: 0;
     padding: 0;
