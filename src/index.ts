@@ -122,6 +122,7 @@ const frame_css = `
 
     :host > .header > h2 {
         margin-top: 8px;
+        font-weight: normal;
         color: var(--uca_green);
         margin-bottom: 0px;
         font-size: 1em;
