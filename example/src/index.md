@@ -7,18 +7,28 @@
 </head>
 <body>
 <main>
+<frame-uca-title
+    caption= "TITLE"
+    author = "Denis MIGDAL"
+    mail   = "denis.migdal@uca.fr">
+</frame-uca-title>
 <frame-uca-plain>
 
 ```sql
 SELECT * FROM TOTO WHERE X = 2;
 ```
 
+<ul>
+    <li>List item</li>
+    <li>List item</li>
+    <li>List item</li>
+</ul>
+
+- test
+- test
+  - test
+
 </frame-uca-plain>
-<frame-uca-title
-    caption= "TITLE"
-    author = "Denis MIGDAL"
-    mail   = "denis.migdal@uca.fr">
-</frame-uca-title>
 
 <section>A</section>
 <section>
