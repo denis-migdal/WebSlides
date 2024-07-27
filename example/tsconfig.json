@@ -1,5 +1,5 @@
 {
-    "exclude": ["node_modules", "webpack.config.js", "build", "dist", "tests"],
+    "exclude": ["node_modules", "webpack.config.js", "build", "dist"],
     "compilerOptions": {
         "rootDir": "./",
         "outDir": "./dist/",

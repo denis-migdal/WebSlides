@@ -19,6 +19,7 @@ SELECT * FROM TOTO WHERE X = 2;
     author = "Denis MIGDAL"
     mail   = "denis.migdal@uca.fr">
 </frame-uca-title>
+
 <section>A</section>
 <section>
 
