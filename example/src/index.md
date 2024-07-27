@@ -12,6 +12,14 @@
     author = "Denis MIGDAL"
     mail   = "denis.migdal@uca.fr">
 </frame-uca-title>
+<frame-uca section="Le langage HTML" subsection="Structure d'une page Web">
+
+- test
+- test
+
+Paragraphe.
+
+</frame-uca>
 <frame-uca-plain>
 
 ```sql
@@ -29,7 +37,6 @@ SELECT * FROM TOTO WHERE X = 2;
   - test
 
 </frame-uca-plain>
-
 <section>A</section>
 <section>
 

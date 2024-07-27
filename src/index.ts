@@ -34,6 +34,9 @@ import LISS from "../libs/LISS/index.ts";
 
 const css = `
     :host {
+        --uca_green: #95c11f;
+        --uca_gray : #5e5c5c;
+
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
@@ -57,12 +60,12 @@ LISS.define("frame-uca-plain", FrameUCAPlain);
 
 const frametitle_css = `
     :host > h1 {
-        color: #95c11f;
+        color: var(--uca_green);
         text-align: center;
     }
     :host > div {
         text-align: center;
-        color: #5e5c5c;
+        color: var(--uca_gray);
 
         & > .mail {
             font-style: italic;
@@ -98,3 +101,53 @@ class FrameUCATitle extends LISS({
 }
 
 LISS.define("frame-uca-title", FrameUCATitle);
+
+const frame_content =
+`<div class="header">
+    <h2 class="title"></h2>
+    <h3 class="subtitle"></h3>
+</div>
+<div class="content"><slot></slot></div>`;
+
+const frame_css = `
+    :host {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    :host > .header {
+        position: absolute;
+        top: 0;
+        left: 10px;
+    }
+
+    :host > .header > h2 {
+        margin-top: 8px;
+        color: var(--uca_green);
+        margin-bottom: 0px;
+        font-size: 1em;
+    }
+    :host > .header > h3 {
+        margin-top: 2px;
+        font-weight: normal;
+        font-style: italic;
+        font-size: 0.75em;
+        color: var(--uca_gray);
+    }
+`;
+
+class FrameUCA extends LISS({
+    css: [css, frame_css],
+    content: frame_content,
+    attributes: ["section", "subsection"]
+}) {
+    constructor() {
+        super();
+        this.host.classList.add('ws-frame');
+
+        this.content.querySelector('.title')!.textContent = this.attrs.section;
+        this.content.querySelector('.subtitle')!.textContent = this.attrs.subsection;
+    }
+
+}
+
+LISS.define("frame-uca", FrameUCA);
