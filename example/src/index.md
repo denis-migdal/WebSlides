@@ -7,13 +7,13 @@
 </head>
 <body>
 <main>
-<section>
+<uca-frame-plain>
 
 ```sql
 SELECT * FROM TOTO WHERE X = 2;
 ```
 
-</section>
+</uca-frame-plain>
 <section>A</section>
 <section>
 

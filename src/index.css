@@ -19,7 +19,7 @@ main {
     /*overflow: hidden;*/
     width: var(--slide_width);
     background-color: white;
-    & > section {
+    & > section, & > uca-frame-plain {
         width: var(--slide_width);
         height: var(--slide_height);
         overflow-y: scroll;
@@ -48,6 +48,5 @@ main {
     }
 }
 @page {
-
     size: 747px 420px;
 }
