@@ -43,6 +43,11 @@ body {
     background-color: grey;
     position: relative;
 }
+
+:root {
+    --slide-background: url(rc/img/uca/background.png)
+}
+
 main {
     overflow-x: hidden;
     position: absolute;
@@ -58,7 +63,7 @@ main {
         border: 1px solid black; /* red */
         box-sizing: border-box;
 
-        background-image: url(rc/img/uca/background.png);
+        background-image: var(--slide-background);
         background-size: cover;
     }
 }

@@ -4,6 +4,7 @@
     /* size: 595px 420px // A5 landscape */
     --slide_height: 420px;
     --slide_width: calc( var(--slide_height) * 16 / 9 );
+    --webslide_background: none;
 }
 
 body {
@@ -43,7 +44,7 @@ main {
         border: 1px solid black; /* red */
         box-sizing: border-box;
 
-        background-image: url('./img/uca/background.png');
+        background-image: var(--webslide_background);
         background-size: cover;
     }
 }
@@ -68,6 +69,10 @@ main {
 }
 
 p {
+    margin-top: 0rem;
+}
+
+ul + p {
     margin-top: 2rem;
 }
 
@@ -98,7 +103,7 @@ ul {
         position: relative;
     }
 }
-
+/*
 @font-face {
 font-family: "Computer Modern";
 src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
@@ -118,8 +123,19 @@ font-family: "Computer Modern";
 src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunbxo.otf');
 font-weight: bold;
 font-style: italic, oblique;
-}
+}*/
 
 body {
 font-family: "Computer Modern", sans-serif;
+}
+
+
+.overlay {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+  
+.overlay > * {
+   grid-row-start: 1;
+   grid-column-start: 1;
 }

@@ -135,7 +135,7 @@ LISS.define("frame-uca-title", FrameUCATitle);
 const frame_content =
 `<div class="header">
     <h2 class="title"></h2>
-    <h3 class="subtitle"></h3>
+    <h3><span class="subtitle"></span> <span class="subsubtitle"></span></h3>
 </div>
 <div class="content"><slot></slot></div>`;
 
@@ -169,7 +169,7 @@ const frame_css = `
 class FrameUCA extends LISS({
     css: [css, frame_css],
     content: frame_content,
-    attributes: ["section", "subsection", "repeat", "slide"]
+    attributes: ["section", "subsection", "subsubsection", "repeat", "slide"]
 }) {
     constructor() {
         super();
@@ -177,6 +177,10 @@ class FrameUCA extends LISS({
 
         this.content.querySelector('.title')!.textContent = this.attrs.section;
         this.content.querySelector('.subtitle')!.textContent = this.attrs.subsection;
+        if( this.attrs.subsubsection !== null) {
+            this.content.querySelector('.subsubtitle')!.textContent = '(' + this.attrs.subsubsection + ')';
+        }
+
 
         const onslides = this.host.querySelectorAll<HTMLElement>("[onslide]");
 
@@ -197,6 +201,9 @@ class FrameUCA extends LISS({
                 elem.toggleAttribute("repeat", false);
                 elem.setAttribute('slide', `${idx+1}`);
 
+                // dirty h4ck
+                (elem as any).scripts = (this.host as any).scripts;
+
                 return elem;
             });
             this.host.after( ...dupl );
@@ -205,10 +212,25 @@ class FrameUCA extends LISS({
         const slide_id = this.attrs.slide ?? "0";
         for(let onslide of onslides) {
             const cond = onslide.getAttribute('onslide')!;
-            if( slide_id !== cond)
-                onslide.style.setProperty("display", "none");
+            const show = slide_id === cond;
+            if( ! show ) {
+                if( onslide.closest(".overlay") !== null)
+                    onslide.style.setProperty("visibility", "hidden");
+                else
+                    onslide.style.setProperty("display", "none");
+            }
+
+            // ad hoc
+            if( show && onslide.parentElement?.tagName === "SQL-INTERACTIVE") {
+                const parent = onslide.parentElement!;
+                const idx    = [...parent.children].indexOf(onslide);
+                parent.setAttribute("option", `${idx}`);
+            }
         }
 
+        // dirty h4ck
+        for(let script of (this.host as any).scripts ?? [])
+            script(this.host);
     }
 
     protected override onAttrChanged(name: string, _oldValue: string, value: string): void | false {
@@ -216,6 +238,8 @@ class FrameUCA extends LISS({
             this.content.querySelector('.title')!.textContent = this.attrs.section;
         if( name === "subsection")
             this.content.querySelector('.subtitle')!.textContent = this.attrs.subsection;
+        if( name === "subsubsection")
+            this.content.querySelector('.subsubtitle')!.textContent = '(' + this.attrs.subsubsection + ')';
     }
 
 }
@@ -274,4 +298,31 @@ LISS.define("frame-uca", FrameUCA);
     }
 
     LISS.define("frame-subsection", FrameSubSection);
+}
+
+{
+    const css = `
+:host {
+    display: none;
+}`;
+
+    class FrameSubSubSection extends LISS({
+        css: [css],
+        shadow: ShadowCfg.NONE
+    }) {
+
+        constructor() {
+            super();
+            const text = this.host.textContent!.trim();
+            let next = this.host.nextElementSibling;
+
+            while( next !== null  && next.tagName !== "FRAME-SUBSUBSECTION" && next.tagName !== "FRAME-SECTION") {
+                next.setAttribute('subsubsection', text);
+                next = next.nextElementSibling;
+            }
+        }
+
+    }
+
+    LISS.define("frame-subsubsection", FrameSubSubSection);
 }
