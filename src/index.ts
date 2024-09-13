@@ -169,7 +169,7 @@ const frame_css = `
 class FrameUCA extends LISS({
     css: [css, frame_css],
     content: frame_content,
-    attributes: ["section", "subsection"]
+    attributes: ["section", "subsection", "repeat", "slide"]
 }) {
     constructor() {
         super();
@@ -177,6 +177,38 @@ class FrameUCA extends LISS({
 
         this.content.querySelector('.title')!.textContent = this.attrs.section;
         this.content.querySelector('.subtitle')!.textContent = this.attrs.subsection;
+
+        const onslides = this.host.querySelectorAll<HTMLElement>("[onslide]");
+
+        if( this.attrs.slide === null) {
+
+            let max = 0;
+            for(let onslide of onslides) {
+                const m = +onslide.getAttribute('onslide')!;
+                if( m > max)
+                    max = m;
+            }
+
+            if( max === 0)
+                return;
+
+            const dupl = Array.from({length: max}, (_, idx) => {
+                const elem = this.host.cloneNode(true) as HTMLElement;
+                elem.toggleAttribute("repeat", false);
+                elem.setAttribute('slide', `${idx+1}`);
+
+                return elem;
+            });
+            this.host.after( ...dupl );
+        }
+
+        const slide_id = this.attrs.slide ?? "0";
+        for(let onslide of onslides) {
+            const cond = onslide.getAttribute('onslide')!;
+            if( slide_id !== cond)
+                onslide.style.setProperty("display", "none");
+        }
+
     }
 
     protected override onAttrChanged(name: string, _oldValue: string, value: string): void | false {
