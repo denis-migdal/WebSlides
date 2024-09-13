@@ -7,7 +7,3 @@
 ## Examples
 
 - https://denis-migdal.github.io/WebSlides/example/dist/dev/
-
-## TODO
-
-- use current scroll instead of current_frame...

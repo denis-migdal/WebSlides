@@ -17,15 +17,35 @@ document.addEventListener("keyup", (ev) => {
     if( ! ["ArrowLeft", "ArrowRight"].includes(ev.code) )
         return;
 
-    let sections = [...document.querySelectorAll(':is(section, .ws-frame)')];
+    let sections = [...document.querySelectorAll<HTMLElement>(':is(section, .ws-frame)')];
 
-    if( ev.code=== "ArrowLeft"  && current !== 0)
+    const pos = document.querySelector("main")!.scrollTop;
+
+    /*
+    if( ev.code=== "ArrowLeft" && current !== 0)
         --current;
     if( ev.code=== "ArrowRight" && current !== sections.length - 1 )
         ++current;
+    */
+    if( ev.code=== "ArrowLeft" ) {
+
+        let cur = sections.length - 1;
+        while( cur != 0 && pos <= sections[cur].offsetTop)
+            --cur;
+
+        current = cur;
+    }
+    if( ev.code=== "ArrowRight" ) {
+
+        let cur = 0;
+        while( cur != sections.length - 1 && pos >= sections[cur].offsetTop)
+            ++cur;
+
+        current = cur;
+    }
 
     main.scrollTo({
-        top: (sections[current] as any).offsetTop,
+        top     : sections[current].offsetTop,
         behavior: "instant",
     });
 });
