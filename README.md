@@ -10,6 +10,4 @@
 
 ## TODO
 
-- section/subsection => set others section/subsection attr.
-
 - use current scroll instead of current_frame...

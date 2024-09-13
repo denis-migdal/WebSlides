@@ -30,7 +30,7 @@ document.addEventListener("keyup", (ev) => {
     });
 });
 
-import LISS from "../libs/LISS/index.ts";
+import LISS, { ShadowCfg } from "LISS/index.ts";
 
 const css = `
     :host {
@@ -59,9 +59,15 @@ class FrameUCAPlain extends LISS({
 LISS.define("frame-uca-plain", FrameUCAPlain);
 
 const frametitle_css = `
-    :host > h1 {
+    :host > .title > h1 {
         color: var(--uca_green);
         text-align: center;
+    }
+    :host > .title > h2 {
+        color: var(--uca_green);
+        text-align: center;
+        font-style: italic;
+        margin-top: 0;
     }
     :host > div {
         text-align: center;
@@ -73,7 +79,10 @@ const frametitle_css = `
     }
 `;
 const content = 
-`<h1></h1>
+`<div class="title">
+    <h1></h1>
+    <h2></h2>
+</div>
 <div>
     <span class="author"></span><br/>
     <span class="mail"></span>
@@ -86,13 +95,14 @@ const content =
 class FrameUCATitle extends LISS({
     css: [css, frametitle_css],
     content,
-    attributes: ["caption", "author", "mail"]
+    attributes: ["caption", "subcaption", "author", "mail"]
 }) {
     constructor() {
         super();
         this.host.classList.add('ws-frame');
 
         this.content.querySelector('h1')!.textContent = this.attrs.caption;
+        this.content.querySelector('h2')!.textContent = this.attrs.subcaption;
         this.content.querySelector('.author')!.textContent = this.attrs.author;
         this.content.querySelector('.mail')!.textContent = this.attrs.mail;
         this.content.querySelector('.date')!.textContent = new Date().toLocaleDateString('fr-FR', { year:"numeric", month:"short", day:"numeric"});
@@ -149,6 +159,67 @@ class FrameUCA extends LISS({
         this.content.querySelector('.subtitle')!.textContent = this.attrs.subsection;
     }
 
+    protected override onAttrChanged(name: string, _oldValue: string, value: string): void | false {
+        if( name === "section")
+            this.content.querySelector('.title')!.textContent = this.attrs.section;
+        if( name === "subsection")
+            this.content.querySelector('.subtitle')!.textContent = this.attrs.subsection;
+    }
+
 }
 
 LISS.define("frame-uca", FrameUCA);
+
+{
+    const css = `
+:host {
+    display: none;
+}`;
+
+    class FrameSection extends LISS({
+        css: [css],
+        shadow: ShadowCfg.NONE
+    }) {
+
+        constructor() {
+            super();
+            const text = this.host.textContent!.trim();
+            let next = this.host.nextElementSibling;
+
+            while( next !== null && next.tagName !== "FRAME-SECTION") {
+                next.setAttribute('section', text);
+                next = next.nextElementSibling;
+            }
+        }
+
+    }
+
+    LISS.define("frame-section", FrameSection);
+}
+
+{
+    const css = `
+:host {
+    display: none;
+}`;
+
+    class FrameSubSection extends LISS({
+        css: [css],
+        shadow: ShadowCfg.NONE
+    }) {
+
+        constructor() {
+            super();
+            const text = this.host.textContent!.trim();
+            let next = this.host.nextElementSibling;
+
+            while( next !== null && next.tagName !== "FRAME-SUBSECTION" && next.tagName !== "FRAME-SECTION") {
+                next.setAttribute('subsection', text);
+                next = next.nextElementSibling;
+            }
+        }
+
+    }
+
+    LISS.define("frame-subsection", FrameSubSection);
+}
