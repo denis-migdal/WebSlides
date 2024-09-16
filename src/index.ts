@@ -62,7 +62,6 @@ const css = `
         justify-content: space-evenly;
         height: 100%;
         width : 100%;
-        background-image: url('./img/uca/background.png');
         background-size: cover;
     }
 `;
@@ -136,18 +135,19 @@ const frame_content =
 `<div class="header">
     <h2 class="title"></h2>
     <h3><span class="subtitle"></span> <span class="subsubtitle"></span></h3>
-</div>
-<div class="content"><slot></slot></div>`;
+</div><slot></slot><div></div>`;
 
 const frame_css = `
     :host {
+        justify-content: space-between;
+
         padding-left: 10px;
         padding-right: 10px;
     }
     :host > .header {
-        position: absolute;
+        /*position: absolute;
         top: 0;
-        left: 10px;
+        left: 10px;*/
     }
 
     :host > .header > h2 {
@@ -159,6 +159,7 @@ const frame_css = `
     }
     :host > .header > h3 {
         margin-top: 2px;
+        margin-bottom: 0px; /* because flex spacing */
         font-weight: normal;
         font-style: italic;
         font-size: 0.75em;
@@ -184,7 +185,14 @@ class FrameUCA extends LISS({
 
         const onslides = this.host.querySelectorAll<HTMLElement>("[onslide]");
 
-        if( this.attrs.slide === null) {
+        if( this.attrs.slide === null)
+            this.host.setAttribute("slide", "0");
+
+        // dirty h4ck
+        for(let script of (this.host as any).scripts ?? [])
+            script(this.host);
+
+        if( this.attrs.slide === "0") {
 
             let max = 0;
             for(let onslide of onslides) {
@@ -209,15 +217,30 @@ class FrameUCA extends LISS({
             this.host.after( ...dupl );
         }
 
-        const slide_id = this.attrs.slide ?? "0";
+        const slide_id = +( this.attrs.slide ?? "0" );
         for(let onslide of onslides) {
             const cond = onslide.getAttribute('onslide')!;
-            const show = slide_id === cond;
+
+            const show = cond.split(",").map( p => p.split("-")).some( (part) => {
+
+                if( part.length === 1)
+                    return slide_id === +part[0];
+
+                if( slide_id < +part[0] )
+                    return false;
+                
+                if( part[1] === "")
+                    return true;
+                
+                if( slide_id > +part[1] )
+                    return false;
+
+                return true;
+            });
+
             if( ! show ) {
-                if( onslide.closest(".overlay") !== null)
-                    onslide.style.setProperty("visibility", "hidden");
-                else
-                    onslide.style.setProperty("display", "none");
+                onslide.style.setProperty("visibility", "hidden");
+                //  onslide.style.setProperty("display", "none");
             }
 
             // ad hoc
@@ -226,11 +249,15 @@ class FrameUCA extends LISS({
                 const idx    = [...parent.children].indexOf(onslide);
                 parent.setAttribute("option", `${idx}`);
             }
+
+            // ad hoc
+            const system = onslide.closest("sql-system");
+            if( show && system !== null) {
+                const id = [...system.querySelectorAll("sql-option")].indexOf(onslide);
+                system.setAttribute("active", `${id}` );
+            }
         }
 
-        // dirty h4ck
-        for(let script of (this.host as any).scripts ?? [])
-            script(this.host);
     }
 
     protected override onAttrChanged(name: string, _oldValue: string, value: string): void | false {

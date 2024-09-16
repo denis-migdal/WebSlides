@@ -69,15 +69,11 @@ main {
 }
 
 p {
-    margin-top: 0rem;
+    margin: 0;
 }
 
 ul + p {
     margin-top: 2rem;
-}
-
-p:has(+ ul) {
-    margin-bottom: 0;
 }
 
 li > ul {
@@ -87,9 +83,18 @@ li > ul {
 ul {
     margin: 0em 10px;
     padding: 0 1em;
-    list-style: none;
+    list-style: "▶ ";
 
-    
+    * + & {
+        margin-top: 4px;
+    }
+
+    & > li::marker {
+        color: blue;
+        font-size: 0.8em;
+    }
+
+    /*
     & > li::before { 
         content: "";
         border-color: transparent blue;
@@ -101,7 +106,7 @@ ul {
         left: -1em;
         top: 0.9em;
         position: relative;
-    }
+    }*/
 }
 /*
 @font-face {
@@ -129,10 +134,29 @@ body {
 font-family: "Computer Modern", sans-serif;
 }
 
+.flex {
+    display: flex;
+    justify-content: space-evenly;
+}
+.flex-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0px 10px;
 
+    &:is(ul) {
+        padding: 0;
+
+        & > li {
+            margin-left: 1em;
+        }
+    }
+}
 .overlay {
     display: grid;
     grid-template-columns: 1fr;
+}
+span.overlay {
+    display: inline-grid;
 }
   
 .overlay > * {
