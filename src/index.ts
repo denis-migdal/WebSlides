@@ -251,8 +251,8 @@ class FrameUCA extends LISS({
             }
 
             // ad hoc
-            const system = onslide.closest("sql-system");
-            if( show && system !== null) {
+            if( show && onslide.matches("sql-option") ) {
+                const system = onslide.closest("sql-system")!;
                 const id = [...system.querySelectorAll("sql-option")].indexOf(onslide);
                 system.setAttribute("active", `${id}` );
             }
@@ -343,7 +343,7 @@ LISS.define("frame-uca", FrameUCA);
             const text = this.host.textContent!.trim();
             let next = this.host.nextElementSibling;
 
-            while( next !== null  && next.tagName !== "FRAME-SUBSUBSECTION" && next.tagName !== "FRAME-SECTION") {
+            while( next !== null  && next.tagName !== "FRAME-SUBSUBSECTION" && next.tagName !== "FRAME-SUBSECTION"  && next.tagName !== "FRAME-SECTION") {
                 next.setAttribute('subsubsection', text);
                 next = next.nextElementSibling;
             }
