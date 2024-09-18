@@ -4,7 +4,12 @@ const main = document.querySelector("main")!;
 function updateRatio() {
     const vh = document.documentElement.clientHeight; // without scrollbar
     const mh = main.clientHeight; // height: 148mm
-    main.style.setProperty("--scale", `${vh/mh}`);
+
+    const vw = document.documentElement.clientWidth; // without scrollbar
+
+    const scale = Math.min( vh/mh, vw/(16*mh/9) );
+
+    main.style.setProperty("--scale", `${scale}`);
 }
 
 window.addEventListener('resize', updateRatio);
