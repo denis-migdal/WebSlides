@@ -17,10 +17,42 @@ updateRatio();
 
 // change slide
 let current = 0;
+
+function getCode(ev: KeyboardEvent) {
+
+    let code = ev.code;
+    if( code === "ArrowLeft")
+        code = "PageUp";
+    if( code === "ArrowRight")
+        code = "PageDown";
+
+    return code;
+}
+function isDownUp(code: string) {
+    return ["PageUp", "PageDown"].includes(code);
+}
+
+document.addEventListener("keydown", (ev) => {
+
+    if( ! isDownUp( getCode(ev) ) )
+        ev.preventDefault();
+
+});
+
+document.addEventListener("keypress", (ev) => {
+
+    if( ! isDownUp( getCode(ev) ) )
+        ev.preventDefault();
+
+});
+
 document.addEventListener("keyup", (ev) => {
 
-    if( ! ["ArrowLeft", "ArrowRight"].includes(ev.code) )
+    const code = getCode(ev);
+    if( ! isDownUp(code) )
         return;
+
+    ev.preventDefault();
 
     let sections = [...document.querySelectorAll<HTMLElement>(':is(section, .ws-frame)')];
 
@@ -32,7 +64,7 @@ document.addEventListener("keyup", (ev) => {
     if( ev.code=== "ArrowRight" && current !== sections.length - 1 )
         ++current;
     */
-    if( ev.code=== "ArrowLeft" ) {
+    if( code=== "PageUp" ) {
 
         let cur = sections.length - 1;
         while( cur != 0 && pos <= sections[cur].offsetTop)
@@ -40,7 +72,7 @@ document.addEventListener("keyup", (ev) => {
 
         current = cur;
     }
-    if( ev.code=== "ArrowRight" ) {
+    if( code=== "PageDown" ) {
 
         let cur = 0;
         while( cur != sections.length - 1 && pos >= sections[cur].offsetTop)
