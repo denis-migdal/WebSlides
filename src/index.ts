@@ -34,14 +34,14 @@ function isDownUp(code: string) {
 
 document.addEventListener("keydown", (ev) => {
 
-    if( ! isDownUp( getCode(ev) ) )
+    if( isDownUp( getCode(ev) ) )
         ev.preventDefault();
 
 });
 
 document.addEventListener("keypress", (ev) => {
 
-    if( ! isDownUp( getCode(ev) ) )
+    if( isDownUp( getCode(ev) ) )
         ev.preventDefault();
 
 });
