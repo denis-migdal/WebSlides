@@ -1,5 +1,13 @@
 const main = document.querySelector("main")!;
 
+
+const p = new URLSearchParams(location.search);
+if( p.has("overview") ) {
+    main.style.setProperty('--nb_frame', p.get("overview"));
+    document.body.classList.add('overview');
+}
+
+
 let height_offset = 0;
 
 export function setHeightOffset(off: number) {
@@ -9,7 +17,7 @@ export function setHeightOffset(off: number) {
 
 // fit page height
 function updateRatio() {
-    const mh = main.clientHeight; // height: 148mm
+    const mh = 420; // height: 148mm - cste fix in CSS
 
     const isFullScreen = window.screen.height === window.innerHeight;
 
