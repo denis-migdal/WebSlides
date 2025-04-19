@@ -2,7 +2,10 @@ const main = document.querySelector("main")!;
 
 
 const p = new URLSearchParams(location.search);
-if( p.has("overview") ) {
+
+const IS_IN_OVERVIEW = p.has("overview");
+
+if( IS_IN_OVERVIEW ) {
     main.style.setProperty('--nb_frame', p.get("overview"));
     document.body.classList.add('overview');
 }
@@ -26,7 +29,7 @@ function updateRatio() {
     const vh = document.documentElement.clientHeight - offset; // without scrollbar
     const vw = document.documentElement.clientWidth; // without scrollbar
 
-    const scale = Math.min( vh/mh, vw/(16*mh/9) );
+    const scale = IS_IN_OVERVIEW ? vw/(mh*16/9) : Math.min( vh/mh, vw/(mh*16/9) );
 
     main.style.setProperty("--scale", `${scale}`);
 }
