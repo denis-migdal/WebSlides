@@ -1,1 +1,1 @@
-import "../../lib.ts";
+import "../../lib";
