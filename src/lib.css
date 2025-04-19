@@ -4,6 +4,7 @@
     /* size: 595px 420px // A5 landscape */
     --slide_height: 420px;
     --slide_width: calc( var(--slide_height) * 16 / 9 );
+    --webslide_background: none;
 }
 
 body {
@@ -50,12 +51,20 @@ main {
 @media screen {
     body {
         overflow: hidden;
+
+        position: relative;
+        height: 100vh;
     }
     main {
-        right: 0;
-        transform-origin: top right;
+        position: absolute;
+
+        right : 0;
+        bottom: 0;
+        top   : unset ! important;
+        transform-origin: bottom right;
         scale: var(--scale);
         height: var(--slide_height);
+        /* --slide_width */
     }
 }
 @media print {
@@ -67,17 +76,33 @@ main {
     size: 747px 420px;
 }
 
+p {
+    margin: 0;
+}
+
+ul + p {
+    margin-top: 2rem;
+}
 
 li > ul {
     margin-top: 0;
 }
 
 ul {
-    margin: 0.75em 10px;
+    margin: 0em 10px;
     padding: 0 1em;
-    list-style: none;
+    list-style: "▶ ";
 
-    
+    * + & {
+        margin-top: 4px;
+    }
+
+    & > li::marker {
+        color: blue;
+        font-size: 0.8em;
+    }
+
+    /*
     & > li::before { 
         content: "";
         border-color: transparent blue;
@@ -89,7 +114,7 @@ ul {
         left: -1em;
         top: 0.9em;
         position: relative;
-    }
+    }*/
 }
 
 @font-face {
