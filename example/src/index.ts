@@ -1,1 +1,0 @@
-import "../libs/WebSlides/src/index.ts";

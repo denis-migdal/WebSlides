@@ -30,7 +30,7 @@ document.addEventListener("keyup", (ev) => {
     });
 });
 
-import LISS from "../libs/LISS/index.ts";
+import LISS from "@LISS/src";
 
 const css = `
     :host {
@@ -49,7 +49,7 @@ const css = `
 
 class FrameUCAPlain extends LISS({
     css
-}) {
+})<void> {
     constructor() {
         super();
         this.host.classList.add('ws-frame');
@@ -72,7 +72,7 @@ const frametitle_css = `
         }
     }
 `;
-const content = 
+const html = 
 `<h1></h1>
 <div>
     <span class="author"></span><br/>
@@ -85,16 +85,16 @@ const content =
 
 class FrameUCATitle extends LISS({
     css: [css, frametitle_css],
-    content,
+    html,
     attributes: ["caption", "author", "mail"]
-}) {
+})<void> {
     constructor() {
         super();
         this.host.classList.add('ws-frame');
 
-        this.content.querySelector('h1')!.textContent = this.attrs.caption;
-        this.content.querySelector('.author')!.textContent = this.attrs.author;
-        this.content.querySelector('.mail')!.textContent = this.attrs.mail;
+        this.content.querySelector('h1')!.textContent = this.host.getAttribute("caption");
+        this.content.querySelector('.author')!.textContent = this.host.getAttribute("author");
+        this.content.querySelector('.mail')!.textContent = this.host.getAttribute("mail");
         this.content.querySelector('.date')!.textContent = new Date().toLocaleDateString('fr-FR', { year:"numeric", month:"short", day:"numeric"});
     }
 
@@ -137,16 +137,16 @@ const frame_css = `
 `;
 
 class FrameUCA extends LISS({
-    css: [css, frame_css],
-    content: frame_content,
+    css : [css, frame_css],
+    html: frame_content,
     attributes: ["section", "subsection"]
-}) {
+})<void> {
     constructor() {
         super();
         this.host.classList.add('ws-frame');
 
-        this.content.querySelector('.title')!.textContent = this.attrs.section;
-        this.content.querySelector('.subtitle')!.textContent = this.attrs.subsection;
+        this.content.querySelector('.title')!.textContent    = this.host.getAttribute("section");
+        this.content.querySelector('.subtitle')!.textContent = this.host.getAttribute("subsection");
     }
 
 }

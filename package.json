@@ -2,13 +2,15 @@
     "name": "[PROJECT_NAME]",
     "version": "1.0.0",
     "description": "[PROJECT_DESC]",
+    "type"       : "module",
     "repository": {
         "type": "git",
         "url": "git+[PROJECT_REPOSITORY]"
     },
     "scripts": {
-      "build": "clear ; webpack --no-watch --mode=development",
-      "watch": "clear ; webpack --watch    --mode=development"
+        "build"     : "clear ; webpack --no-watch --mode=development",
+        "build-prod": "clear ; webpack --no-watch --mode=production",
+        "watch"     : "clear ; webpack --watch    --mode=development"
     },
     "author": "[AUTHOR]",
     "license": "[LICENCE]",
@@ -17,6 +19,8 @@
     "devDependencies": {
         "webpack": "^5.93.0",
         "webpack-cli": "^5.1.4",
+        "glob": "^11.0.0",
+        "copy-webpack-plugin": "^12.0.2",
         "file-loader": "^6.2.0",
         "url-loader": "^4.1.1",
         "fork-ts-checker-notifier-webpack-plugin": "^9.0.0",

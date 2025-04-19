@@ -1,15 +1,11 @@
 <div align="center">
   <h1>WebSlides</h1>
 
-  <p>A library enabling to create presentation in HTML5. </p>
+  <p>Create Web presentations with HTML/CSS/TS</p>
 </div>
 
-## Examples
+## Build
 
-- https://denis-migdal.github.io/WebSlides/example/dist/dev/
-
-## TODO
-
-- section/subsection => set others section/subsection attr.
-
-- use current scroll instead of current_frame...
+- `npm run build`
+- `npm run build-prod`
+- `npm run watch`

@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>Example</title>
-    <link rel="stylesheet" href="./index.css">
-    <script src="./index.js" type="module" defer></script>
+    <link rel="stylesheet" href="/skeleton/index.css">
+    <script src="/skeleton/index.js" type="module" defer></script>
 </head>
 <body>
 <main>
 <frame-uca-title
-    caption= "TITLE"
+    caption= "Title"
     author = "Denis MIGDAL"
     mail   = "denis.migdal@uca.fr">
 </frame-uca-title>
@@ -21,10 +21,6 @@ Paragraphe.
 
 </frame-uca>
 <frame-uca-plain>
-
-```sql
-SELECT * FROM TOTO WHERE X = 2;
-```
 
 <ul>
     <li>List item</li>
