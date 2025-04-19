@@ -161,7 +161,7 @@ class FrameUCATitle extends LISS({
         this.content.querySelector('h2')!.textContent = this.host.getAttribute("subcaption");
         this.content.querySelector('.author')!.textContent = this.host.getAttribute("author");
         this.content.querySelector('.mail')!.textContent = this.host.getAttribute("mail");
-        this.content.querySelector('.date')!.textContent = new Date().toLocaleDateString('fr-FR', { year:"numeric", month:"short", day:"numeric"});
+        this.content.querySelector('.date')!.textContent = new Date(document.lastModified).toLocaleDateString('fr-FR', { year:"numeric", month:"short", day:"numeric"});
     }
 
 }

@@ -1,0 +1,1 @@
+{"version":3,"file":"/index.js","mappings":"mHAAe,G","sources":["webpack://[PROJECT_NAME]/./src/pages/index.md"],"sourcesContent":["export default __webpack_public_path__ + \"index.html\";"],"names":[],"sourceRoot":""}
