@@ -1,10 +1,21 @@
 const main = document.querySelector("main")!;
 
+let height_offset = 0;
+
+export function setHeightOffset(off: number) {
+    height_offset = off;
+    updateRatio();
+}
+
 // fit page height
 function updateRatio() {
-    const vh = document.documentElement.clientHeight; // without scrollbar
     const mh = main.clientHeight; // height: 148mm
 
+    const isFullScreen = window.screen.height === window.innerHeight;
+
+    const offset = isFullScreen ? 0 : height_offset;
+
+    const vh = document.documentElement.clientHeight - offset; // without scrollbar
     const vw = document.documentElement.clientWidth; // without scrollbar
 
     const scale = Math.min( vh/mh, vw/(16*mh/9) );
@@ -21,9 +32,10 @@ let current = 0;
 function getCode(ev: KeyboardEvent) {
 
     let code = ev.code;
-    if( code === "ArrowLeft")
+
+    if( code === "ArrowLeft"  || code === "ArrowUp")
         code = "PageUp";
-    if( code === "ArrowRight")
+    if( code === "ArrowRight" || code === "ArrowDown")
         code = "PageDown";
 
     return code;
@@ -34,8 +46,12 @@ function isDownUp(code: string) {
 
 document.addEventListener("keydown", (ev) => {
 
-    if( isDownUp( getCode(ev) ) )
+    const code = getCode(ev);
+
+    if( isDownUp( code ) ) {
         ev.preventDefault();
+        handleEvent( code );
+    }
 
 });
 
@@ -43,16 +59,15 @@ document.addEventListener("keypress", (ev) => {
 
     if( isDownUp( getCode(ev) ) )
         ev.preventDefault();
-
 });
 
 document.addEventListener("keyup", (ev) => {
 
-    const code = getCode(ev);
-    if( ! isDownUp(code) )
-        return;
+    if( isDownUp( getCode(ev) ) )
+        ev.preventDefault();
+});
 
-    ev.preventDefault();
+function handleEvent(code: string) {
 
     let sections = [...document.querySelectorAll<HTMLElement>(':is(section, .ws-frame)')];
 
@@ -85,7 +100,7 @@ document.addEventListener("keyup", (ev) => {
         top     : sections[current].offsetTop,
         behavior: "instant",
     });
-});
+}
 
 import LISS from "@LISS/src";
 
@@ -125,6 +140,12 @@ const frametitle_css = `
         font-style: italic;
         margin-top: 0;
     }
+
+    :host .date {
+        font-size: small;
+        font-style: italic;
+    }
+
     :host > div {
         text-align: center;
         color: var(--uca_gray);
@@ -161,7 +182,7 @@ class FrameUCATitle extends LISS({
         this.content.querySelector('h2')!.textContent = this.host.getAttribute("subcaption");
         this.content.querySelector('.author')!.textContent = this.host.getAttribute("author");
         this.content.querySelector('.mail')!.textContent = this.host.getAttribute("mail");
-        this.content.querySelector('.date')!.textContent = new Date(document.lastModified).toLocaleDateString('fr-FR', { year:"numeric", month:"short", day:"numeric"});
+        this.content.querySelector('.date')!.textContent = "(dernière modification le " + new Date(document.lastModified).toLocaleDateString('fr-FR', { year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute: "2-digit"}) + ")";
     }
 
 }
