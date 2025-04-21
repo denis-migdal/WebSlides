@@ -233,26 +233,35 @@ const frame_css = `
         font-style: italic;
         font-size: 0.75em;
         color: var(--uca_gray);
+
+        & .subsubtitle:not(:empty) {
+            &::before {
+                content: "("
+            }
+            &::after {
+                content: ")"
+            }
+        }
     }
 `;
 
 class FrameUCA extends LISS({
     css : [css, frame_css],
     html: frame_content,
-    attributes: ["section", "subsection", "subsubsection", "repeat", "slide"]
+    attributes: ["repeat", "slide"] /* TODO... */
 })<void> {
     constructor() {
         super();
+
         this.host.classList.add('ws-frame');
 
-        this.content.querySelector('.title')!.textContent    = this.host.getAttribute("section");
-        this.content.querySelector('.subtitle')!.textContent = this.host.getAttribute("subsection");
+        for(let i = 0; i <= 2; ++i) {
+            const prefix = "sub".repeat(i);
 
-        const subsubsection = this.host.getAttribute("subsubsection");
-        if( subsubsection !== null) {
-            this.content.querySelector('.subsubtitle')!.textContent = '(' + subsubsection + ')';
+            const section = this.host.closest(`frame-${prefix}section`);
+            if( section !== null)
+                this.content.querySelector(`.${prefix}title`)!.textContent    = section.getAttribute("name");
         }
-
 
         const onslides = this.host.querySelectorAll<HTMLElement>("[onslide]");
 
@@ -331,97 +340,16 @@ class FrameUCA extends LISS({
         }
 
     }
-
-    override attributeChangedCallback(name: string, _oldValue: string, value: string): void | false {
-        if( name === "section")
-            this.content.querySelector('.title')!.textContent = this.host.getAttribute("section");
-        if( name === "subsection")
-            this.content.querySelector('.subtitle')!.textContent = this.host.getAttribute("subsection");
-        if( name === "subsubsection")
-            this.content.querySelector('.subsubtitle')!.textContent = '(' + this.host.getAttribute("subsubsection") + ')';
-    }
-
 }
 
 LISS.define("frame-uca", FrameUCA);
 
 {
-    const css = `
-:host {
-    display: none;
-}`;
+    class FrameSection       extends LISS({ shadow: null })<void> {}
+    class FrameSubSection    extends LISS({ shadow: null })<void> {}
+    class FrameSubSubSection extends LISS({ shadow: null })<void> {}
 
-    class FrameSection extends LISS({
-        css: [css],
-        shadow: null
-    })<void> {
-
-        constructor() {
-            super();
-            const text = this.host.textContent!.trim();
-            let next = this.host.nextElementSibling;
-
-            while( next !== null && next.tagName !== "FRAME-SECTION") {
-                next.setAttribute('section', text);
-                next = next.nextElementSibling;
-            }
-        }
-
-    }
-
-    LISS.define("frame-section", FrameSection);
-}
-
-{
-    const css = `
-:host {
-    display: none;
-}`;
-
-    class FrameSubSection extends LISS({
-        css: [css],
-        shadow: null
-    })<void> {
-
-        constructor() {
-            super();
-            const text = this.host.textContent!.trim();
-            let next = this.host.nextElementSibling;
-
-            while( next !== null && next.tagName !== "FRAME-SUBSECTION" && next.tagName !== "FRAME-SECTION") {
-                next.setAttribute('subsection', text);
-                next = next.nextElementSibling;
-            }
-        }
-
-    }
-
-    LISS.define("frame-subsection", FrameSubSection);
-}
-
-{
-    const css = `
-:host {
-    display: none;
-}`;
-
-    class FrameSubSubSection extends LISS({
-        css: [css],
-        shadow: null
-    })<void> {
-
-        constructor() {
-            super();
-            const text = this.host.textContent!.trim();
-            let next = this.host.nextElementSibling;
-
-            while( next !== null  && next.tagName !== "FRAME-SUBSUBSECTION" && next.tagName !== "FRAME-SUBSECTION"  && next.tagName !== "FRAME-SECTION") {
-                next.setAttribute('subsubsection', text);
-                next = next.nextElementSibling;
-            }
-        }
-
-    }
-
+    LISS.define("frame-section"      , FrameSection);
+    LISS.define("frame-subsection"   , FrameSubSection);
     LISS.define("frame-subsubsection", FrameSubSubSection);
 }
