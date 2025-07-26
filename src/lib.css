@@ -10,6 +10,11 @@
 body {
     counter-reset: page_id;
 }
+
+u {
+    text-decoration: underline 1px solid light-dark(black, white);
+}
+
 main .ws-frame {
     position: relative;
 }
@@ -140,6 +145,11 @@ li > ul {
     margin-top: 0;
 }
 
+ol {
+    margin: 0em 10px;
+    padding: 0 1em;
+}
+
 ul {
     margin: 0em 10px;
     padding: 0 1em;
@@ -216,6 +226,7 @@ ul {
 	font-style: italic;
 }
 
-body {
+main {
     font-family: "Computer Modern Sans", sans-serif;
 }
+
