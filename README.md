@@ -9,3 +9,10 @@
 - `npm run build`
 - `npm run build-prod`
 - `npm run watch`
+
+## TODO
+
+- LISS menu
+- split lib.ts into components
+
+- slide last change ?

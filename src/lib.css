@@ -7,6 +7,19 @@
     --webslide_background: none;
 }
 
+frame-section, frame-subsection, frame-subsubsection {
+    display: contents;
+}
+
+.hidden {
+    display: none;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 body {
     counter-reset: page_id;
 }
@@ -48,10 +61,7 @@ body.overview main {
     overflow-y: auto;
     overflow-x: hidden;
 
-    & > * {
-
-        outline: 2px solid blue;
-
+    & .ws-frame {
         transform-origin: top left;
         transform: scale( calc( var(--scale) / var(--nb_frame) ) );
     }
@@ -109,7 +119,8 @@ main {
     }
     
     body:not(.overview) main {
-        scale: var(--scale);
+        
+        scale : var(--scale);
         height: var(--slide_height);
 
         position: absolute;
@@ -119,6 +130,7 @@ main {
 
         top : 50%;
         left: 50%;
+
         transform-origin: top left;
         transform: translate(-50%, -50%);
         /* --slide_width */
@@ -230,3 +242,11 @@ main {
     font-family: "Computer Modern Sans", sans-serif;
 }
 
+.overlay {
+    display: inline-grid;
+    grid: 1 1;
+
+    & > * {
+        grid-area: 1 / 1;
+    }
+}
