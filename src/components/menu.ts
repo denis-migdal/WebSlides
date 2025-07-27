@@ -47,9 +47,7 @@ const main = document.querySelector('main')!;
 
 function updatePageMenu(menu: PageMenuNode) {
 
-    //TODO: scale...
     const last = searchCurPageHeader( menu, main.scrollTop)!;
-
     const html = generateMenuHTML(last ?? menu);
 
     menu_page.replaceChildren(...html);

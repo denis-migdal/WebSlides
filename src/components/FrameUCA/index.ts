@@ -85,10 +85,9 @@ class FrameUCA extends LISS({
                 return true;
             });
 
-            if( ! show ) {
-                onslide.style.setProperty("visibility", "hidden");
+            if( ! show )
+                onslide.classList.add('invisible');
                 //  onslide.style.setProperty("display", "none");
-            }
 
             // ad hoc
             if( show && onslide.parentElement?.tagName === "SQL-INTERACTIVE") {
