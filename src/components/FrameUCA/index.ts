@@ -24,11 +24,6 @@ export class FrameUCA extends LISS({
                 this.content.querySelector(`.${prefix}title`)!.textContent    = section.getAttribute("name");
         }
 
-        // dirty h4ck
-        if( "init" in this.host )
-            // @ts-ignore
-            this.host.init();
-
         const onslides = this.host.querySelectorAll<HTMLElement>("[onslide]");
 
         //TODO: onslide.
