@@ -7,7 +7,7 @@ const html = require("!!raw-loader!./index.html").default;
 
 // attributes: ["repeat", "slide"] /* TODO... */
 
-class FrameUCA extends LISS({
+export class FrameUCA extends LISS({
     css : [plain_css, css],
     html,
 }) {
@@ -25,8 +25,9 @@ class FrameUCA extends LISS({
         }
 
         // dirty h4ck
-        for(let script of (this.host as any).scripts ?? [])
-            script(this.host);
+        if( "init" in this.host )
+            // @ts-ignore
+            this.host.init();
 
         const onslides = this.host.querySelectorAll<HTMLElement>("[onslide]");
 
